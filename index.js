@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
     };
 
     client.connect((err) => {
-        afterConnected(err);
+        afterConnected();
 
     });
 
