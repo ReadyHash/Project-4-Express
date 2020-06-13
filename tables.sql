@@ -5,5 +5,6 @@ CREATE TABLE stores (
 
 CREATE TABLE foods (
 		id SERIAL PRIMARY KEY,
+		store_id INTEGER,
 		name TEXT
 );

@@ -26,7 +26,11 @@ app.use(express.urlencoded({
   extended: true
 }));
 
-app.get('/', (req, res) => {
+app.get('/', (req,res) => {
+    res.send("hello world!");
+});
+
+app.get('/stores', (req, res) => {
     console.log("user has connected")
 
 
@@ -44,7 +48,7 @@ app.get('/', (req, res) => {
 
     }
 
-    const afterConnected = (connectionError) => {
+    const startConnection = (connectionError) => {
         console.log("starting query");
 
         if( connectionError ){
@@ -58,7 +62,7 @@ app.get('/', (req, res) => {
     };
 
     client.connect((err) => {
-        afterConnected();
+        startConnection();
 
     });
 

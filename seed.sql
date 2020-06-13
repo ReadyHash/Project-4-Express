@@ -4,8 +4,8 @@ INSERT INTO stores (name) VALUES('Watsons');
 INSERT INTO stores (name) VALUES('Mcdonalds');
 INSERT INTO stores (name) VALUES('Subway');
 
-INSERT INTO foods (name) VALUES('Chocolate');
-INSERT INTO foods (name) VALUES('Apple');
-INSERT INTO foods (name) VALUES('Medicine');
-INSERT INTO foods (name) VALUES('Big Mac');
-INSERT INTO foods (name) VALUES('Sandwich');
+INSERT INTO foods (store_id, name) VALUES(1 , 'Chocolate');
+INSERT INTO foods (store_id, name) VALUES(2 , 'Apple');
+INSERT INTO foods (store_id, name) VALUES(3 , 'Medicine');
+INSERT INTO foods (store_id, name) VALUES(4 , 'Big Mac');
+INSERT INTO foods (store_id, name) VALUES(5 , 'Sandwich');
