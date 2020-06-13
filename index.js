@@ -27,12 +27,14 @@ app.use(express.urlencoded({
 }));
 
 app.get('/', (req,res) => {
+
+    console.log(process.argv[2]);
     res.send("hello world!");
 });
 
 app.get('/stores', (req, res) => {
     console.log("user has connected")
-
+    console.log(req.body);
 
     const whenQueryDone = (queryError, result) => {
         console.log("query done")
@@ -40,9 +42,8 @@ app.get('/stores', (req, res) => {
             console.log("//////////////////", err.message);
             res.send(err.message);
         }else{
-            console.log("result --- ", result.rows[0])
+            console.log("result");
             const data = result.rows
-            console.log(data);
             res.send(data);
         }
 
@@ -56,9 +57,9 @@ app.get('/stores', (req, res) => {
             console.log( "///////////////// error", err.message );
         }
         // query database for all stores
-        const myQuery = 'SELECT * FROM stores';
+        const getAllStores = 'SELECT * FROM stores';
 
-        client.query(myQuery, whenQueryDone);
+        client.query(getAllStores, whenQueryDone);
     };
 
     client.connect((err) => {
