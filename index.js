@@ -11,11 +11,12 @@ const configs = {
   port: 5432,
 };
 
-const pool = new pg.Pool(configs);
+const client = new pg.Client(configs);
 
-pool.on('error', function (err) {
+client.on('error', function (err) {
   console.log('idle client error', err.message, err.stack);
 });
+
 
 // Init express app
 const app = express();
@@ -26,10 +27,43 @@ app.use(express.urlencoded({
 }));
 
 app.get('/', (req, res) => {
-  // query database for all stores
+    console.log("user has connected")
 
-  // respond with text that lists the names of all the pokemons
-  res.send('This is the index EXPRESS!');
+
+    const whenQueryDone = (queryError, result) => {
+        console.log("query done")
+        if(queryError){
+            console.log("//////////////////", err.message);
+            res.send(err.message);
+        }else{
+            console.log("result --- ", result.rows[0])
+            const data = result.rows
+            console.log(data);
+            res.send(data);
+        }
+
+    }
+
+    const afterConnected = (connectionError) => {
+        console.log("starting query");
+
+        if( connectionError ){
+            // something wrong with connecting
+            console.log( "///////////////// error", err.message );
+        }
+        // query database for all stores
+        const myQuery = 'SELECT * FROM stores';
+
+        client.query(myQuery, whenQueryDone);
+    };
+
+    client.connect((err) => {
+        afterConnected(err);
+
+    });
+
+
+
 });
 
 // boilerplate for listening and ending the program
