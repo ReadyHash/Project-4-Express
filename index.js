@@ -45,7 +45,7 @@ app.get('/stores', (req, res) => {
     const whenQueryDone = (queryError, result) => {
         console.log("query done")
         if(queryError){
-            console.log("//////////////////", err.message);
+            console.log( "///////////////// error", err.message );
             res.send(err.message);
         }else{
             console.log("result --- ", result.rows[0])
@@ -56,7 +56,7 @@ app.get('/stores', (req, res) => {
 
     }
 
-    const startConnection = (connectionError) => {
+    const startQuery = (connectionError) => {
         console.log("starting query");
 
         if( connectionError ){
@@ -70,7 +70,7 @@ app.get('/stores', (req, res) => {
     };
 
     client.connect((err) => {
-        startConnection();
+        startQuery();
 
     });
 
@@ -83,8 +83,29 @@ app.get('/stores/new', (req, res) => {
 })
 
 app.post('/stores/new', (req, res) => {
-    console.log("new store received!!!!");
-    res.redirect("/stores");
+
+    const whenQueryDone = (queryError, result) => {
+        if(queryError){
+            console.log( "///////////////// error", err.message );
+        }
+        res.redirect("/stores");
+    }
+
+    const startQuery = (connectionError) => {
+        console.log("starting query");
+        if( connectionError ){
+            console.log( "///////////////// error", err.message );
+        }
+        const myQuery = 'INSERT INTO stores (name) VALUES($1)';
+
+        const storeValue = [req.body.storeName]
+
+        client.query(myQuery, storeValue, whenQueryDone);
+    };
+
+    client.connect((err) => {
+        startQuery();
+    });
 })
 // boilerplate for listening and ending the program
 

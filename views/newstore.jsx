@@ -6,9 +6,9 @@ class NewStore extends React.Component {
       <html>
         <body>
           <div>
-            <h1>NewStore!</h1>
+            <h1>NEW</h1>
             <form action="/stores/new" method="POST">
-                <p> Name of store </p>
+                <p> Please create your store </p>
                 <input type="text" name= "storeName"/>
                 <input type="submit" value="Submit"/>
             </form>
