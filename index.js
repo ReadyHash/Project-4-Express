@@ -39,13 +39,11 @@ app.get('/', (req,res) => {
 });
 
 app.get('/stores', (req, res) => {
-    console.log("user has connected")
 
-
-    const whenQueryDone = (queryError, result) => {
-        console.log("query done")
+    const whenStoreFound = (queryError, result) => {
         if(queryError){
-            console.log( "///////////////// error", err.message );
+            console.log("//////////////////");
+            console.log(err.message);
             res.send(err.message);
         }else{
             console.log("result --- ", result.rows[0])
@@ -53,60 +51,155 @@ app.get('/stores', (req, res) => {
             console.log(data);
             res.send(data);
         }
-
     }
 
-    const startQuery = (connectionError) => {
-        console.log("starting query");
+    const viewStores = (connectionError) => {
 
         if( connectionError ){
             // something wrong with connecting
-            console.log( "///////////////// error", err.message );
+            console.log("//////////////////");
+            console.log(err.message);
         }
         // query database for all stores
         const myQuery = 'SELECT * FROM stores';
 
-        client.query(myQuery, whenQueryDone);
+        client.query(myQuery, whenStoreFound);
     };
 
     client.connect((err) => {
-        startQuery();
-
+        viewStores();
     });
-
-
-
 });
 
 app.get('/stores/new', (req, res) => {
-    res.render("newstore");
+    res.render('newstore');
 })
 
 app.post('/stores/new', (req, res) => {
 
-    const whenQueryDone = (queryError, result) => {
+    const whenStoreAdded = (queryError, result) => {
         if(queryError){
-            console.log( "///////////////// error", err.message );
+            console.log("//////////////////");
+            console.log(err.message);
         }
         res.redirect("/stores");
     }
 
-    const startQuery = (connectionError) => {
+    const addStore = (connectionError) => {
         console.log("starting query");
         if( connectionError ){
-            console.log( "///////////////// error", err.message );
+            console.log("//////////////////");
+            console.log(err.message);
         }
         const myQuery = 'INSERT INTO stores (name) VALUES($1)';
 
         const storeValue = [req.body.storeName]
 
-        client.query(myQuery, storeValue, whenQueryDone);
+        client.query(myQuery, storeValue, whenStoreAdded);
     };
 
     client.connect((err) => {
-        startQuery();
+        addStore();
     });
 })
+
+app.get('/foods', (req, res) => {
+
+    const whenFoodFound = (queryError, result) => {
+        if(queryError){
+            console.log("//////////////////");
+            console.log(err.message);
+            res.send(err.message);
+        }else{
+            console.log("result --- ", result.rows[0])
+            const data = result.rows
+            console.log(data);
+            res.send(data);
+        }
+    }
+
+    const viewFoods = (connectionError) => {
+
+        if( connectionError ){
+            // something wrong with connecting
+            console.log("//////////////////");
+            console.log(err.message);
+        }
+        // query database for all stores
+        const myQuery = 'SELECT * FROM foods';
+
+        client.query(myQuery, whenFoodFound);
+    };
+
+    client.connect((err) => {
+        viewFoods();
+    });
+});
+
+app.get('/foods/new', (req, res) => {
+
+    const whenStoreFound = (err, result) => {
+        if(err){
+            console.log("//////////////////");
+            console.log(err.message);
+        }
+        const storeData = {
+            store: result.rows
+        }
+        res.render('newfood', storeData);
+    }
+
+    const findStore = (connectionError) => {
+
+        if( connectionError ){
+            console.log("//////////////////");
+            console.log(err.message);
+        }
+        const myQuery = 'SELECT * FROM stores';
+
+        client.query(myQuery, whenStoreFound);
+    };
+
+    client.connect((err) => {
+        //running query to display all stores in the form
+        findStore();
+    });
+})
+
+app.post('/foods/new', (req, res) => {
+
+    const whenFoodAdded = (err, result) => {
+        if(err){
+            console.log("//////////////////");
+            console.log(err.message);
+        }
+
+        res.send(result);
+    };
+
+    const addFood = (connectionError) => {
+        if(connectionError){
+            console.log("//////////////////");
+            console.log(err.message);
+        }
+
+        const myQuery = "INSERT INTO foods (store_id, name) VALUES($1 , $2)";
+        let food = req.body.foodName;
+        let store = req.body.store_id
+
+        const value = [store , food];
+        console.log(store);
+        console.log(food);
+        console.log(value);
+        client.query(myQuery, value, whenFoodAdded)
+    }
+
+    client.connect((err) => {
+        addFood();
+    });
+
+})
+
 // boilerplate for listening and ending the program
 
 const server = app.listen(3000, () => console.log('~~~ Tuning in to the waves of port 3000 ~~~'));
