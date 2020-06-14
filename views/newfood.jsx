@@ -4,7 +4,7 @@ class NewFood extends React.Component {
   render() {
     console.log(this.props.store);
     const allStoresElement = this.props.store.map(store =>{
-        return <option value={store.id}>{store.name}</option>
+        return <option key ={store.id} value={store.id}>{store.name}</option>
     })
 
     return (

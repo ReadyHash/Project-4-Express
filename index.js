@@ -42,25 +42,24 @@ app.get('/stores', (req, res) => {
 
     const whenStoreFound = (queryError, result) => {
         if(queryError){
-            console.log("//////////////////");
+            console.log("----{error handler}----");
             console.log(err.message);
             res.send(err.message);
         }else{
             console.log("result --- ", result.rows[0])
-            const data = result.rows
-            console.log(data);
-            res.send(data);
+            const stores = {
+                stores: result.rows
+            }
+            console.log(stores);
+            res.render('stores', stores);
         }
     }
 
     const viewStores = (connectionError) => {
-
         if( connectionError ){
-            // something wrong with connecting
-            console.log("//////////////////");
+            console.log("----{error handler}----");
             console.log(err.message);
         }
-        // query database for all stores
         const myQuery = 'SELECT * FROM stores';
 
         client.query(myQuery, whenStoreFound);
@@ -78,17 +77,18 @@ app.get('/stores/new', (req, res) => {
 app.post('/stores/new', (req, res) => {
 
     const whenStoreAdded = (queryError, result) => {
+        //----{error handler}----
         if(queryError){
-            console.log("//////////////////");
+            console.log("----{error handler}----");
             console.log(err.message);
         }
         res.redirect("/stores");
     }
 
     const addStore = (connectionError) => {
-        console.log("starting query");
+        //
         if( connectionError ){
-            console.log("//////////////////");
+            console.log("----{error handler}----");
             console.log(err.message);
         }
         const myQuery = 'INSERT INTO stores (name) VALUES($1)';
@@ -107,7 +107,7 @@ app.get('/foods', (req, res) => {
 
     const whenFoodFound = (queryError, result) => {
         if(queryError){
-            console.log("//////////////////");
+            console.log("----{error handler}----");
             console.log(err.message);
             res.send(err.message);
         }else{
@@ -122,7 +122,7 @@ app.get('/foods', (req, res) => {
 
         if( connectionError ){
             // something wrong with connecting
-            console.log("//////////////////");
+            console.log("----{error handler}----");
             console.log(err.message);
         }
         // query database for all stores
@@ -140,7 +140,7 @@ app.get('/foods/new', (req, res) => {
 
     const whenStoreFound = (err, result) => {
         if(err){
-            console.log("//////////////////");
+            console.log("----{error handler}----");
             console.log(err.message);
         }
         const storeData = {
@@ -152,7 +152,7 @@ app.get('/foods/new', (req, res) => {
     const findStore = (connectionError) => {
 
         if( connectionError ){
-            console.log("//////////////////");
+            console.log("----{error handler}----");
             console.log(err.message);
         }
         const myQuery = 'SELECT * FROM stores';
@@ -170,7 +170,7 @@ app.post('/foods/new', (req, res) => {
 
     const whenFoodAdded = (err, result) => {
         if(err){
-            console.log("//////////////////");
+            console.log("----{error handler}----");
             console.log(err.message);
         }
 
@@ -179,18 +179,15 @@ app.post('/foods/new', (req, res) => {
 
     const addFood = (connectionError) => {
         if(connectionError){
-            console.log("//////////////////");
+            console.log("----{error handler}----");
             console.log(err.message);
         }
 
         const myQuery = "INSERT INTO foods (store_id, name) VALUES($1 , $2)";
         let food = req.body.foodName;
-        let store = req.body.store_id
-
+        let store = req.body.store_id;
+        // this is to re-arrange the array order before query
         const value = [store , food];
-        console.log(store);
-        console.log(food);
-        console.log(value);
         client.query(myQuery, value, whenFoodAdded)
     }
 
