@@ -1,7 +1,18 @@
 console.log("starting up!!");
 
 const express = require('express');
+const app = express();
 const pg = require('pg');
+
+// this line below, sets a layout look to your express project
+const reactEngine = require('express-react-views').createEngine();
+app.engine('jsx', reactEngine);
+
+// this tells express where to look for the view files
+app.set('views', __dirname + '/views');
+
+// this line sets react to be the default view engine
+app.set('view engine', 'jsx');
 
 // Initialise postgres client
 const configs = {
@@ -18,16 +29,13 @@ client.on('error', function (err) {
 });
 
 
-// Init express app
-const app = express();
-
 app.use(express.json());
 app.use(express.urlencoded({
   extended: true
 }));
 
 app.get('/', (req,res) => {
-    res.send("hello world!");
+    res.render('home');
 });
 
 app.get('/stores', (req, res) => {
@@ -70,6 +78,9 @@ app.get('/stores', (req, res) => {
 
 });
 
+app.get('/stores/new', (req, res) => {
+    res.render("newstore")
+})
 // boilerplate for listening and ending the program
 
 const server = app.listen(3000, () => console.log('~~~ Tuning in to the waves of port 3000 ~~~'));
