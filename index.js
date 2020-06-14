@@ -70,6 +70,30 @@ app.get('/stores', (req, res) => {
     });
 });
 
+app.get('/stores/:id', (req,res) => {
+
+    const whenStoreFound = (queryError, result) => {
+        if(queryError){
+            console.log("----{error handler}----");
+            console.log(err.message);
+        }
+        res.send(result.rows);
+    }
+
+    const getStore = (connectionError) => {
+        if(connectionError){
+            console.log("----{error handler}----");
+            console.log(err.message);
+        }
+        const myQuery = 'SELECT * FROM stores WHERE id = ' + req.params.id
+        client.query(myQuery, whenStoreFound)
+    }
+
+    client.connect((err) => {
+        getStore()
+    });
+})
+
 app.get('/stores/new', (req, res) => {
     res.render('newstore');
 })
