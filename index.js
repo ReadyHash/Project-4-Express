@@ -79,7 +79,12 @@ app.get('/stores', (req, res) => {
 });
 
 app.get('/stores/new', (req, res) => {
-    res.render("newstore")
+    res.render("newstore");
+})
+
+app.post('/stores/new', (req, res) => {
+    console.log("new store received!!!!");
+    res.redirect("/stores");
 })
 // boilerplate for listening and ending the program
 
