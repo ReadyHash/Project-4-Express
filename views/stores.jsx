@@ -3,7 +3,8 @@ var React = require('react');
 class Stores extends React.Component {
   render() {
     const listAllStores = this.props.stores.map( (store) => {
-        return <p>{store.name}</p>
+        console.log(store.id)
+        return <button id="store_button">{store.name}</button>
     })
     return (
       <html>
@@ -13,6 +14,11 @@ class Stores extends React.Component {
             {listAllStores}
           </div>
         </body>
+        <script type="text/javascript">
+            document.getElementById("store_button").onclick = function(){
+                location.href = "/stores/1"
+            };
+        </script>
       </html>
     );
   }

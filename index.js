@@ -43,8 +43,8 @@ app.get('/stores', (req, res) => {
     const whenStoreFound = (queryError, result) => {
         if(queryError){
             console.log("----{error handler}----");
-            console.log(err.message);
-            res.send(err.message);
+            console.log(queryError.message);
+            res.send(queryError.message);
         }else{
             console.log("result --- ", result.rows[0])
             const stores = {
@@ -58,7 +58,7 @@ app.get('/stores', (req, res) => {
     const viewStores = (connectionError) => {
         if( connectionError ){
             console.log("----{error handler}----");
-            console.log(err.message);
+            console.log(connectionError.message);
         }
         const myQuery = 'SELECT * FROM stores';
 
@@ -75,7 +75,8 @@ app.get('/stores/:id', (req,res) => {
     const whenStoreFound = (queryError, result) => {
         if(queryError){
             console.log("----{error handler}----");
-            console.log(err.message);
+            console.log(queryError.message);
+
         }
         res.send(result.rows);
     }
@@ -83,7 +84,7 @@ app.get('/stores/:id', (req,res) => {
     const getStore = (connectionError) => {
         if(connectionError){
             console.log("----{error handler}----");
-            console.log(err.message);
+            console.log(connectionError.message);
         }
         const myQuery = 'SELECT * FROM stores WHERE id = ' + req.params.id
         client.query(myQuery, whenStoreFound)
@@ -104,7 +105,7 @@ app.post('/stores/new', (req, res) => {
         //----{error handler}----
         if(queryError){
             console.log("----{error handler}----");
-            console.log(err.message);
+            console.log(queryError.message);
         }
         res.redirect("/stores");
     }
@@ -113,7 +114,7 @@ app.post('/stores/new', (req, res) => {
         //
         if( connectionError ){
             console.log("----{error handler}----");
-            console.log(err.message);
+            console.log(connectionError.message);
         }
         const myQuery = 'INSERT INTO stores (name) VALUES($1)';
 
@@ -132,8 +133,8 @@ app.get('/foods', (req, res) => {
     const whenFoodFound = (queryError, result) => {
         if(queryError){
             console.log("----{error handler}----");
-            console.log(err.message);
-            res.send(err.message);
+            console.log(queryError.message);
+            res.send(queryError.message);
         }else{
             console.log("result --- ", result.rows[0])
             const data = result.rows
@@ -147,7 +148,7 @@ app.get('/foods', (req, res) => {
         if( connectionError ){
             // something wrong with connecting
             console.log("----{error handler}----");
-            console.log(err.message);
+            console.log(connectionError.message);
         }
         // query database for all stores
         const myQuery = 'SELECT * FROM foods';
@@ -177,7 +178,7 @@ app.get('/foods/new', (req, res) => {
 
         if( connectionError ){
             console.log("----{error handler}----");
-            console.log(err.message);
+            console.log(connectionError.message);
         }
         const myQuery = 'SELECT * FROM stores';
 
@@ -204,7 +205,7 @@ app.post('/foods/new', (req, res) => {
     const addFood = (connectionError) => {
         if(connectionError){
             console.log("----{error handler}----");
-            console.log(err.message);
+            console.log(connectionError.message);
         }
 
         const myQuery = "INSERT INTO foods (store_id, name) VALUES($1 , $2)";
@@ -219,6 +220,10 @@ app.post('/foods/new', (req, res) => {
         addFood();
     });
 
+})
+
+app.get('/signup', (req,res) => {
+    res.render('signup');
 })
 
 // boilerplate for listening and ending the program
