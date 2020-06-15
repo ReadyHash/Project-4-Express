@@ -73,16 +73,43 @@ app.get('/stores', (req, res) => {
 app.get('/stores/:id', (req,res) => {
 
     const whenStoreFound = (queryError, result) => {
+
         if(queryError){
+            console.log(1);
             console.log("----{error handler}----");
             console.log(queryError.message);
-
         }
-        res.send(result.rows);
+
+        const whenStoreFoodFound = (queryError, foodResult) => {
+            if(queryError){
+                console.log(5);
+                console.log("----{error handler}----");
+                console.log(queryError.message);
+            }
+            const storemenu = {
+                store: result.rows,
+                foods: foodResult.rows
+            }
+            res.render('storepage', storemenu);
+        }
+
+        const getStoreFood = (connectionError) => {
+            if(connectionError){
+                console.log(4);
+                console.log("----{error handler}----");
+                console.log(connectionError.message);
+            }
+            const myOtherQuery = 'SELECT * FROM foods WHERE store_id = ' + req.params.id
+
+            client.query(myOtherQuery, whenStoreFoodFound)
+        }
+
+        getStoreFood()
     }
 
     const getStore = (connectionError) => {
         if(connectionError){
+            console.log(3);
             console.log("----{error handler}----");
             console.log(connectionError.message);
         }
@@ -92,6 +119,7 @@ app.get('/stores/:id', (req,res) => {
 
     client.connect((err) => {
         getStore()
+
     });
 })
 
@@ -199,7 +227,7 @@ app.post('/foods/new', (req, res) => {
             console.log(err.message);
         }
 
-        res.send(result);
+        res.redirect('/foods');
     };
 
     const addFood = (connectionError) => {
