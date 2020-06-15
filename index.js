@@ -37,24 +37,16 @@ app.use(express.urlencoded({
 }));
 
 app.get('/', (req,res) => {
+
     const data = {
-        isUserLogIn: false
-        }
-    //why use an array for loggedin?
-    console.log('/////////////////////');
-    console.log(req.cookies['logged in']);
-    console.log('/////////////////////');
-    if(req.cookies['logged in'] === 'true'){
-        data.isUserLogIn = true;
-    }else{
-        const data = {
-        isTheUserLoggedIn: false
-        }
-        console.log(data);
-        res.render('home', data );
+        LoggedIn: false
+    };
+
+    if (req.cookies['logged in'] === true) {
+        console.log("IT IS TRUE AND LOGGED IN!!!!!!!");
     }
 
-
+    res.render('home');
 });
 
 app.get('/stores', (req, res) => {
