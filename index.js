@@ -298,7 +298,22 @@ app.post('/signin', (req,res) => {
             console.log("----{whenUserChecked error}----");
             console.log(err.message);
         }
-        res.send(result.rows[0]);
+        console.log(result.rows);
+
+        const userPassword = req.body.password;
+
+        if(result.rows.length > 0){
+            if(result.rows[0].password === userPassword){
+                res.send("You're logged in!");
+            }else{
+                console.log(result.rows[0].password === userPassword)
+                console.log(result.rows[0].password);
+                res.send("Sorry Username or Password is invalid")
+            }
+
+        }else{
+            res.send("invalid");
+        }
     }
 
     const checkUser = (connectionError) => {
@@ -307,7 +322,6 @@ app.post('/signin', (req,res) => {
             console.log(connectionError.message);
         }
         const myQuery = 'SELECT * FROM users WHERE email = $1';
-
 
         client.query(myQuery, value, whenUserChecked);
     }
