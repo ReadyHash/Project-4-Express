@@ -103,7 +103,6 @@ app.get('/stores/:id', (req,res) => {
 
             client.query(myOtherQuery, whenStoreFoodFound)
         }
-
         getStoreFood()
     }
 
@@ -237,10 +236,12 @@ app.post('/foods/new', (req, res) => {
         }
 
         const myQuery = "INSERT INTO foods (store_id, name) VALUES($1 , $2)";
-        let food = req.body.foodName;
-        let store = req.body.store_id;
         // this is to re-arrange the array order before query
-        const value = [store , food];
+        const value = [
+            req.body.store_id,
+            req.body.foodName
+        ];
+
         client.query(myQuery, value, whenFoodAdded)
     }
 
@@ -254,6 +255,37 @@ app.get('/signup', (req,res) => {
     res.render('signup');
 })
 
+app.post('/signup',(req,res) =>{
+    const value = [
+        req.body.name,
+        req.body.email,
+        req.body.password
+    ]
+    const whenUserAdded = (err, result) => {
+        if(err){
+            console.log("----{error handler}----");
+            console.log(err.message);
+        }
+        res.render('home');
+    };
+    const newUser = (connectionError) => {
+        if(connectionError){
+            console.log("----{error handler}----");
+            console.log(connectionError.message);
+        }
+        const myQuery = 'INSERT INTO users (name, email, password) VALUES ($1, $2, $3)';
+
+        client.query(myQuery, value, whenUserAdded);
+
+    }
+    client.connect((err) => {
+        newUser();
+    });
+})
+
+app.get('/signin', (req,res) => {
+    res.render('signin');
+})
 // boilerplate for listening and ending the program
 
 const server = app.listen(3000, () => console.log('~~~ Tuning in to the waves of port 3000 ~~~'));
