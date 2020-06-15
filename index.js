@@ -256,11 +256,13 @@ app.get('/signup', (req,res) => {
 })
 
 app.post('/signup',(req,res) =>{
+
     const value = [
         req.body.name,
         req.body.email,
         req.body.password
     ]
+
     const whenUserAdded = (err, result) => {
         if(err){
             console.log("----{error handler}----");
@@ -268,6 +270,7 @@ app.post('/signup',(req,res) =>{
         }
         res.render('home');
     };
+
     const newUser = (connectionError) => {
         if(connectionError){
             console.log("----{error handler}----");
@@ -285,6 +288,33 @@ app.post('/signup',(req,res) =>{
 
 app.get('/signin', (req,res) => {
     res.render('signin');
+})
+
+app.post('/signin', (req,res) => {
+    const value = [req.body.email]
+
+    const whenUserChecked = (err, result) => {
+        if(err){
+            console.log("----{whenUserChecked error}----");
+            console.log(err.message);
+        }
+        res.send(result.rows[0]);
+    }
+
+    const checkUser = (connectionError) => {
+        if(connectionError){
+            console.log("----{checkuser error}----");
+            console.log(connectionError.message);
+        }
+        const myQuery = 'SELECT * FROM users WHERE email = $1';
+
+
+        client.query(myQuery, value, whenUserChecked);
+    }
+
+    client.connect((err) => {
+        checkUser();
+    })
 })
 // boilerplate for listening and ending the program
 
