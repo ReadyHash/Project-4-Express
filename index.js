@@ -2,6 +2,8 @@ console.log("starting up!!");
 
 const express = require('express');
 const app = express();
+const methodOverride = require('method-override')
+app.use(methodOverride('_method'));
 const pg = require('pg');
 
 // this line below, sets a layout look to your express project
@@ -35,7 +37,24 @@ app.use(express.urlencoded({
 }));
 
 app.get('/', (req,res) => {
-    res.render('home');
+    const data = {
+        isUserLogIn: false
+        }
+    //why use an array for loggedin?
+    console.log('/////////////////////');
+    console.log(req.cookies['logged in']);
+    console.log('/////////////////////');
+    if(req.cookies['logged in'] === 'true'){
+        data.isUserLogIn = true;
+    }else{
+        const data = {
+        isTheUserLoggedIn: false
+        }
+        console.log(data);
+        res.render('home', data );
+    }
+
+
 });
 
 app.get('/stores', (req, res) => {
@@ -305,6 +324,7 @@ app.post('/signin', (req,res) => {
         if(result.rows.length > 0){
             if(result.rows[0].password === userPassword){
                 res.cookie('logged in', 'true');
+                res.cookie('user_id', result.rows[0].id);
                 res.send("You're logged in!");
             }else{
                 console.log(result.rows[0].password === userPassword)
@@ -330,6 +350,12 @@ app.post('/signin', (req,res) => {
     client.connect((err) => {
         checkUser();
     })
+})
+
+app.delete('/signout', (req,res) =>{
+    res.clearCookie('logged in');
+    res.clearCookie('user_id');
+    res.send("You're logged out!")
 })
 // boilerplate for listening and ending the program
 

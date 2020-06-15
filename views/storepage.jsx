@@ -2,11 +2,13 @@ var React = require('react');
 
 class StorePage extends React.Component {
   render() {
-    console.log(this.props.store[0].name);
+    console.log(this.props.store[0]);
     const storename = this.props.store[0].name
 
     const foodElement = this.props.foods.map( (food) => {
-        return <p>{food.name}</p>
+        const foodId = food.id;
+
+        return <a key={food.id} ><p>{food.name}</p></a>
     })
     return (
       <html>
