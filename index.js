@@ -5,6 +5,8 @@ const app = express();
 const methodOverride = require('method-override')
 app.use(methodOverride('_method'));
 const pg = require('pg');
+const cookieParser = require('cookie-parser')
+
 
 // this line below, sets a layout look to your express project
 const reactEngine = require('express-react-views').createEngine();
@@ -42,9 +44,7 @@ app.get('/', (req,res) => {
         LoggedIn: false
     };
 
-    if (req.cookies['logged in'] === true) {
-        console.log("IT IS TRUE AND LOGGED IN!!!!!!!");
-    }
+    console.log('Cookies: ', req.cookies)
 
     res.render('home');
 });
@@ -361,7 +361,7 @@ let onClose = function(){
 
     console.log('Process terminated');
 
-    pool.end( () => console.log('Shut down db connection pool'));
+    client.end( () => console.log('Shut down db connection pool'));
   })
 };
 
