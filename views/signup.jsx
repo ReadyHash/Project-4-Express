@@ -8,7 +8,7 @@ class SignUp extends React.Component {
           <div>
             <h1>Create Account</h1>
             <form action="/signup" method="POST">
-                <h5>Already have an account? Login</h5>
+                <h5>Already have an account? <a href="/signin">Sign-in</a></h5>
                 <p>First Name</p>
                 <input type="text" name= "name"/>
                 <p>Email</p>

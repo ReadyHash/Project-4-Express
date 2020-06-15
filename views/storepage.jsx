@@ -14,6 +14,11 @@ class StorePage extends React.Component {
           <div>
             <h1>Welcome to {storename}'s store </h1>
             {foodElement}
+            <div>
+                <a href="/stores"> go back </a>
+
+                <a href="/"> home </a>
+            </div>
           </div>
         </body>
       </html>

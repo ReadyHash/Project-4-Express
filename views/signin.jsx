@@ -8,7 +8,7 @@ class Signin extends React.Component {
           <div>
             <h1>Sign in</h1>
             <form action="/signin" method="POST">
-                <h5>Do not have an account? Signup</h5>
+                <h5>Do not have an account? <a href="/signup">Signup</a></h5>
                 <p>Email</p>
                 <input type="text" name= "email"/>
                 <p>Password</p>

@@ -42,7 +42,7 @@ app.get('/stores', (req, res) => {
 
     const whenStoreFound = (queryError, result) => {
         if(queryError){
-            console.log("----{error handler}----");
+            console.log("----{whenStoreFound error}----");
             console.log(queryError.message);
             res.send(queryError.message);
         }else{
@@ -57,7 +57,7 @@ app.get('/stores', (req, res) => {
 
     const viewStores = (connectionError) => {
         if( connectionError ){
-            console.log("----{error handler}----");
+            console.log("----{viewStores error}----");
             console.log(connectionError.message);
         }
         const myQuery = 'SELECT * FROM stores';
@@ -70,13 +70,13 @@ app.get('/stores', (req, res) => {
     });
 });
 
-app.get('/stores/:id', (req,res) => {
+app.get('/store/:id', (req,res) => {
 
-    const whenStoreFound = (queryError, result) => {
+    const whenStoreidFound = (queryError, result) => {
 
         if(queryError){
             console.log(1);
-            console.log("----{error handler}----");
+            console.log("----{whenStoreidFound error}----");
             console.log(queryError.message);
         }
 
@@ -113,7 +113,7 @@ app.get('/stores/:id', (req,res) => {
             console.log(connectionError.message);
         }
         const myQuery = 'SELECT * FROM stores WHERE id = ' + req.params.id
-        client.query(myQuery, whenStoreFound)
+        client.query(myQuery, whenStoreidFound)
     }
 
     client.connect((err) => {
@@ -304,6 +304,7 @@ app.post('/signin', (req,res) => {
 
         if(result.rows.length > 0){
             if(result.rows[0].password === userPassword){
+                res.cookie('logged in', 'true');
                 res.send("You're logged in!");
             }else{
                 console.log(result.rows[0].password === userPassword)
