@@ -40,16 +40,22 @@ app.use(express.urlencoded({
 
 app.use(cookieParser())
 
+const checkLoginStatus = (status) => {
+    // checks status if its undefined and set it to false if true
+    status = status ? status:false
+
+    data = {
+        isLoggedIn: status
+    };
+    return(data);
+}
+
 app.get('/', (req, res) => {
     console.log("user has connected")
 
-    const data = {
-        LoggedIn: false
-    };
+    checkLoginStatus(req.cookies['logged in']);
 
-    console.log('Cookies: ', req.cookies)
-
-    res.render('home');
+    res.render('home', data);
 });
 
 app.get('/stores', (req, res) => {
@@ -146,6 +152,7 @@ app.post('/user-order', (req,res) => {
     superCart = superCart.concat(userCart);
 
     let oldCart = req.cookies.cart
+    // checks if oldcart is undefined, and stops it from being in the array
     oldCart = oldCart ? oldCart:[]
 
     superCart = superCart.concat(oldCart);
@@ -345,7 +352,7 @@ app.post('/signin', (req,res) => {
             if(result.rows[0].password === userPassword){
                 res.cookie('logged in', 'true');
                 res.cookie('user_id', result.rows[0].id);
-                res.send("You're logged in!");
+                res.redirect('/stores');
             }else{
                 console.log(result.rows[0].password === userPassword)
                 console.log(result.rows[0].password);
@@ -377,7 +384,7 @@ app.post('/signin', (req,res) => {
 app.delete('/signout', (req,res) =>{
     res.clearCookie('logged in');
     res.clearCookie('user_id');
-    res.send("You're logged out!")
+    res.redirect('/');
 })
 // boilerplate for listening and ending the program
 

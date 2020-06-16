@@ -22,9 +22,15 @@ class Layout extends React.Component {
       <li className="nav-item">
         <a className="nav-link" href="/signin">Sign in</a>
       </li>
+      <li className="nav-item">
+        <form action="/signout?_method=delete" method="POST">
+                <input className="nav-link" type="submit" value="Sign-out"/>
+        </form>
+      </li>
     </ul>
   </div>
 </nav>
+
             <div className="container">
                 {this.props.children}
             </div>
