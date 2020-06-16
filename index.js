@@ -59,11 +59,10 @@ app.get('/stores', (req, res) => {
             console.log(queryError.message);
             res.send(queryError.message);
         }else{
-            console.log("result --- ", result.rows[0])
+
             const stores = {
                 stores: result.rows
             }
-            console.log(stores);
             res.render('stores', stores);
         }
     }
@@ -88,14 +87,12 @@ app.get('/store/:id', (req,res) => {
     const whenStoreidFound = (queryError, result) => {
 
         if(queryError){
-            console.log(1);
             console.log("----{whenStoreidFound error}----");
             console.log(queryError.message);
         }
 
         const whenStoreFoodFound = (queryError, foodResult) => {
             if(queryError){
-                console.log(5);
                 console.log("----{error handler}----");
                 console.log(queryError.message);
             }
@@ -108,7 +105,6 @@ app.get('/store/:id', (req,res) => {
 
         const getStoreFood = (connectionError) => {
             if(connectionError){
-                console.log(4);
                 console.log("----{error handler}----");
                 console.log(connectionError.message);
             }
@@ -121,7 +117,6 @@ app.get('/store/:id', (req,res) => {
 
     const getStore = (connectionError) => {
         if(connectionError){
-            console.log(3);
             console.log("----{error handler}----");
             console.log(connectionError.message);
         }
@@ -133,6 +128,10 @@ app.get('/store/:id', (req,res) => {
         getStore()
 
     });
+})
+
+app.post('/order/:id', (req,res) => {
+    res.send(req.body)
 })
 
 app.get('/stores/new', (req, res) => {
@@ -177,7 +176,6 @@ app.get('/foods', (req, res) => {
             console.log(queryError.message);
             res.send(queryError.message);
         }else{
-            console.log("result");
             const data = result.rows
             res.send(data);
         }
