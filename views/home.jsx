@@ -15,16 +15,27 @@ class Home extends React.Component {
     return (
       <Layout>
 
-          <div>
-            <h1>Home!</h1>
+          <div className="text-center">
+            <img
+                className="img-fluid"
+                src="https://hips.hearstapps.com/housebeautiful.cdnds.net/17/42/1508239345-family-eating-lunch-close-up-of-food-on-wooden-table.jpg">
+            </img>
+            <h1>Welcome to PickmeUp!</h1>
+
+
+            <p>where you can order from your local favorite stores and collect them when you're ready</p>
+
+            <a href="/stores"><button className="btn btn-lg btn-warning">View our stores now!</button></a>
 
             <div>
-                <p>Own a business?
-                    <a href="/signup"> Create an Account</a>
-                </p>
+                <footer>
+                    <p>Own a business?
+                        <a href="/signup"> Create an Account</a>
+                    </p>
+                </footer>
             </div>
 
-            <a href="/stores">make an order!</a>
+
 
           </div>
 

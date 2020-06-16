@@ -6,14 +6,14 @@ class Stores extends React.Component {
     const listAllStores = this.props.stores.map( (store) => {
 
         const url = "/store/" + store.id;
-        return <div><a key={store.id} id="store_button" href={url}><p>{store.name}</p></a></div>
+        return <div class="col-sm-3"><a key={store.id} id="store_button" href={url}><div class="card"><div class="card-body"><p>{store.name}</p></div></div></a></div>
     })
     return (
       <Layout>
 
           <div className="text-center">
-            <h1>Stores!</h1>
-            <div>
+            <h1>Order from our local stores!</h1>
+            <div className="row">
                 {listAllStores}
             </div>
           </div>

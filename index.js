@@ -138,9 +138,38 @@ app.get('/store/:id', (req,res) => {
 })
 
 app.get('/user-order', (req,res) => {
+
     const userCart = req.cookies.cart;
-    res.send("orders go here");
+
+    console.log(userCart);
+
+    const whenOrderShown = (err,result) => {
+        if(err){
+            console.log("----{showOrders error}----");
+            console.log(err.message);
+
+        }
+        const data = {
+                order: result.rows
+            }
+        res.render('userorder', data);
+    }
+
+    const showOrders = (connectionError) =>{
+        if(connectionError){
+            console.log("----{viewStores error}----");
+            console.log(connectionError.message);
+        }
+        const myQuery = 'select * from foods where id IN (' + userCart + ')';
+        console.log(myQuery);
+        client.query(myQuery, whenOrderShown);
+    }
+
+    client.connect((err) => {
+        showOrders();
+    });
 })
+
 app.post('/user-order', (req,res) => {
 
     //req.body to push to req.cookies[]

@@ -18,7 +18,7 @@ class StorePage extends React.Component {
 
             <form id="foodlist" action="/user-order" method="POST">
                 {foodElement}
-                <input type="submit"/>
+                <input type="submit" value="add order"/>
             </form>
 
           </div>
