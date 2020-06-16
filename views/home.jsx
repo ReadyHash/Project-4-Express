@@ -1,11 +1,12 @@
 var React = require('react');
+var Layout = require('./layouts/layout')
 
 class Home extends React.Component {
   render() {
     console.log(this.props);
     return (
-      <html>
-        <body>
+      <Layout>
+
           <div>
             <h1>Home!</h1>
             <div>
@@ -20,8 +21,8 @@ class Home extends React.Component {
             <a href="/stores">make an order!</a>
 
           </div>
-        </body>
-      </html>
+
+      </Layout>
     );
   }
 }

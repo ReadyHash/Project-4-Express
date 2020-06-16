@@ -38,9 +38,10 @@ app.use(express.urlencoded({
   extended: true
 }));
 
+app.use(cookieParser())
+
 app.get('/', (req, res) => {
     console.log("user has connected")
-    console.log(req.body);
 
     const data = {
         LoggedIn: false
@@ -130,8 +131,28 @@ app.get('/store/:id', (req,res) => {
     });
 })
 
-app.post('/order/:id', (req,res) => {
-    res.send(req.body)
+app.get('/user-order', (req,res) => {
+    const userCart = req.cookies.cart;
+    res.send("orders go here");
+})
+app.post('/user-order', (req,res) => {
+
+    //req.body to push to req.cookies[]
+
+    let superCart = [];
+
+    const userCart = req.body.userCart
+
+    superCart = superCart.concat(userCart);
+
+    let oldCart = req.cookies.cart
+    oldCart = oldCart ? oldCart:[]
+
+    superCart = superCart.concat(oldCart);
+
+    res.cookie('cart', superCart);
+
+    res.redirect('/stores')
 })
 
 app.get('/stores/new', (req, res) => {
@@ -284,6 +305,8 @@ app.post('/signup',(req,res) =>{
             console.log("----{error handler}----");
             console.log(err.message);
         }
+        res.cookie('logged in', 'true');
+        res.cookie('user_id', result.rows[0].id);
         res.render('home');
     };
 
@@ -292,7 +315,7 @@ app.post('/signup',(req,res) =>{
             console.log("----{error handler}----");
             console.log(connectionError.message);
         }
-        const myQuery = 'INSERT INTO users (name, email, password) VALUES ($1, $2, $3)';
+        const myQuery = 'INSERT INTO users (name, email, password) VALUES ($1, $2, $3) RETURNING *';
 
         client.query(myQuery, value, whenUserAdded);
 
@@ -348,6 +371,8 @@ app.post('/signin', (req,res) => {
         checkUser();
     })
 })
+
+// select * from orders inner join order_list on (orders.id = order_list.order_id) inner join foods on (foods.id = order_list.food_id);
 
 app.delete('/signout', (req,res) =>{
     res.clearCookie('logged in');

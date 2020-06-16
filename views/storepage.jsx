@@ -1,4 +1,5 @@
 var React = require('react');
+var Layout = require('./layouts/layout')
 
 class StorePage extends React.Component {
   render() {
@@ -8,15 +9,14 @@ class StorePage extends React.Component {
     const foodElement = this.props.foods.map( (food) => {
         const foodId = food.id;
 
-        return <div> <label for={food.id}>{food.name}</label> <input type="checkbox" id={food.id} name="user id" value={food.id}/> </div>
+        return <div> <label for={food.id}>{food.name}</label> <input type="checkbox" id={food.id} name="userCart" value={food.id}/> </div>
     })
     return (
-      <html>
-        <body>
+      <Layout>
           <div>
             <h1>Welcome to {storename}'s store </h1>
 
-            <form id="foodlist" action="/order/:id" method="POST">
+            <form id="foodlist" action="/user-order" method="POST">
                 {foodElement}
                 <input type="submit"/>
             </form>
@@ -28,8 +28,7 @@ class StorePage extends React.Component {
             </div>
 
           </div>
-        </body>
-      </html>
+      </Layout>
     );
   }
 }

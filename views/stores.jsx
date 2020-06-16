@@ -1,4 +1,5 @@
 var React = require('react');
+var Layout = require('./layouts/layout')
 
 class Stores extends React.Component {
   render() {
@@ -8,8 +9,8 @@ class Stores extends React.Component {
         return <a key={store.id} id="store_button" href={url}><p>{store.name}</p></a>
     })
     return (
-      <html>
-        <body>
+      <Layout>
+
           <div>
             <h1>Stores!</h1>
 
@@ -19,8 +20,7 @@ class Stores extends React.Component {
 
           <a href="/"> home </a>
 
-        </body>
-      </html>
+      </Layout>
     );
   }
 }

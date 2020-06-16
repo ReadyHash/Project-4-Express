@@ -1,4 +1,5 @@
 var React = require('react');
+var Layout = require('./layouts/layout')
 
 class NewFood extends React.Component {
   render() {
@@ -8,8 +9,8 @@ class NewFood extends React.Component {
     })
 
     return (
-      <html>
-        <body>
+      <Layout>
+
           <div>
             <h1>FOOD</h1>
 
@@ -22,8 +23,8 @@ class NewFood extends React.Component {
                 <input type="submit" value="Submit"/>
             </form>
           </div>
-        </body>
-      </html>
+
+      </Layout>
     );
   }
 }

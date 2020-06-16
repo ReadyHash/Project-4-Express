@@ -1,10 +1,10 @@
 var React = require('react');
+var Layout = require('./layouts/layout')
 
 class NewStore extends React.Component {
   render() {
     return (
-      <html>
-        <body>
+      <Layout>
           <div>
             <h1>NEW</h1>
             <form action="/stores/new" method="POST">
@@ -13,8 +13,7 @@ class NewStore extends React.Component {
                 <input type="submit" value="Submit"/>
             </form>
           </div>
-        </body>
-      </html>
+      </Layout>
     );
   }
 }
