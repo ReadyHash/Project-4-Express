@@ -3,7 +3,6 @@ var Layout = require('./layouts/layout')
 
 class Home extends React.Component {
   render() {
-    console.log(this.props);
     const status = this.props.isLoggedIn
 
     const somefunc = () => {

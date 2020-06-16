@@ -18,16 +18,6 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'jsx');
 
 
-
-
-
-
-
-
-
-
-
-
 const url = require('url');
 
 //check to see if we have this heroku environment variable
@@ -59,9 +49,6 @@ if( process.env.DATABASE_URL ){
 }
 
 
-
-
-
 const client = new pg.Client(configs);
 
 client.on('error', function (err) {
@@ -87,7 +74,6 @@ const checkLoginStatus = (status) => {
 }
 
 app.get('/', (req, res) => {
-    console.log("user has connected")
 
     checkLoginStatus(req.cookies['logged in']);
 
