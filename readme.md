@@ -6,7 +6,7 @@ Link to your user stories – who are your users, what do they want, and why?
 Link to your wireframes – sketches of major views / interfaces in your application
 Descriptions of any unsolved problems or major hurdles you had to overcome
 
-### What is Pickmeup? a dating site?
+# What is Pickmeup? a dating site?
 
 Pickmeup is an order placing app that sends orders to your favourite stalls locally to have them ready when you arrive.
 
@@ -16,11 +16,17 @@ However for an everyday person, you might not want to pay an extra $4 or you jus
 
 That's where Pickmeup comes in, it allows you to place orders and stall owners are able to see it and prepare your order before arrival. Saving time spent outside.
 
-## Wireframe
+### Wireframe
 
-## ERD
+### ERD
 
-## Challenges
+### User Stories
+  Customers who wants to eat food downstairs, but wants to avoid the queue a easier way to order in advance.
+  Store owners would like better control over the customers, if the queue is long that afternoon, they could reject orders if it's too large.
+  Store owners a better way to manage bulk orders.
+  Customers that wants to schedule their food instead of needing to order everyday.
+
+### Challenges
 - Time
   This is due to my unfamiliarity with rails, I thought I had known how to use it that it would speed up the time it takes for me to push features but I realised halfway through that I didn't and was spending too much time just figuring out how things work instead of solving the issues.
 - Heroku
@@ -28,5 +34,5 @@ That's where Pickmeup comes in, it allows you to place orders and stall owners a
 - Postgresql
   Because of how interdependent my tables were, trying the query for them took a long time without the help of Stuart, this project would taken longer.
 
-# Technologies
+### Technologies
 I built the app with node.js, using only a few npms such as Express, Cookieparser, Method-override and React.
