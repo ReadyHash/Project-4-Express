@@ -21,24 +21,7 @@ app.set('view engine', 'jsx');
 const url = require('url');
 
 //check to see if we have this heroku environment variable
-if( process.env.DATABASE_URL ){
 
-  //we need to take apart the url so we can set the appropriate configs
-
-  const params = url.parse(process.env.DATABASE_URL);
-  const auth = params.auth.split(':');
-
-  //make the configs object
-  var configs = {
-    user: auth[0],
-    password: auth[1],
-    host: params.hostname,
-    port: params.port,
-    database: params.pathname.split('/')[1],
-    ssl: true
-  };
-
-}else{
 // Initialise postgres client
     const configs = {
       user: 'shane',
@@ -46,7 +29,7 @@ if( process.env.DATABASE_URL ){
       database: 'pickmeup',
       port: 5432,
     };
-}
+
 
 
 const client = new pg.Client(configs);
@@ -188,8 +171,39 @@ app.get('/user-order', (req,res) => {
     }
 
     client.connect((err) => {
-        showOrders();
+        if(userCart > 0){
+            showOrders();
+
+        }else{
+            res.redirect('stores');
+        }
+
     });
+})
+
+app.get('/owner-order', (req,res) => {
+
+    const whenOrderArrive = (err, result) => {
+        if(err){
+            console.log("----{OrderArrive error}----");
+            console.log(err.message);
+        }
+        res.send(result.rows)
+    }
+
+    const viewOwnerOrder = (connectionError) => {
+        if( connectionError ){
+            console.log("----{error handler}----");
+            console.log(connectionError.message);
+        }
+        const myQuery = 'select * from orders inner join order_list on (orders.id = order_list.order_id) inner join foods on (foods.id = order_list.food_id)'
+
+        client.query(myQuery, whenOrderArrive)
+    }
+
+    client.connect((err)=> {
+        viewOwnerOrder()
+    })
 })
 
 app.post('/user-order', (req,res) => {
@@ -385,6 +399,10 @@ app.post('/signup',(req,res) =>{
 
 app.get('/signin', (req,res) => {
     res.render('signin');
+})
+
+app.delete('checklist', (req,res) => {
+    res.send('OKOK')
 })
 
 app.post('/signin', (req,res) => {
