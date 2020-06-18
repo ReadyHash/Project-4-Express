@@ -27,4 +27,8 @@ That's where Pickmeup comes in, it allows you to place orders and stall owners a
   Because of how interdependent my tables were, trying the query for them took a long time without the help of Stuart, this project would taken longer.
 
 ### Technologies
-I built the app with node.js, using only a few npms such as Express, Cookieparser, Method-override and React.
+I built the app with node.js, using only a few npms such as
+- **Express**
+- **Cookieparser**
+- **Method-override**
+- **React**
